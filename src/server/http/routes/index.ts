@@ -9,6 +9,7 @@ import { githubRoutes } from './github.js';
 import { pageRoutes } from './pages.js';
 import { searchRoutes } from './search.js';
 import { serviceRoutes } from './services.js';
+import { operationsRoutes } from './operations.js';
 
 export const routes: readonly Route[] = [
   // Anyone.
@@ -35,6 +36,8 @@ export const routes: readonly Route[] = [
   fileRoutes.docs,
   searchRoutes.search,
   serviceRoutes.forwards,
+  operationsRoutes.data,
+  operationsRoutes.page,
   githubRoutes.github,
   pageRoutes.office,
   pageRoutes.lite,

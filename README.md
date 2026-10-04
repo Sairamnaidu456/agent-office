@@ -420,3 +420,5 @@ Every change to the app that lands on `main` is published as a GitHub release by
 ## License
 
 [MIT](LICENSE)
+
+For a read-only view of queue counts, task outcomes, worker status and refresh failures, sign in and open `/operations`. See the [operations monitor guide](docs/operations.md).
