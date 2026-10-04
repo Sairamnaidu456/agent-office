@@ -420,3 +420,7 @@ Every change to the app that lands on `main` is published as a GitHub release by
 ## License
 
 [MIT](LICENSE)
+
+## First revenue experiment
+
+The [first-$1,000 operating plan](docs/first-1000-plan.md) records the fresh product experiment, staff assignments, payment proposal, measured-revenue gates and $100 budget limit. Current revenue and provider setup remain unverified; nothing here configures live payment accounts or unattended staff.
