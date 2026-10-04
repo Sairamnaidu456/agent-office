@@ -420,3 +420,7 @@ Every change to the app that lands on `main` is published as a GitHub release by
 ## License
 
 [MIT](LICENSE)
+
+## Creative team console
+
+Open **Creative team ↗** in the office or `/creative.html` for the dedicated desk team, internal tickets and employee account invitations. See [Creative console](docs/creative-console.md).
