@@ -1,0 +1,6 @@
+{
+  "method": "lexical-anchor-jaccard",
+  "threshold": 0.5,
+  "keywordCount": 10,
+  "clusterCount": 3
+}
