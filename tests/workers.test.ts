@@ -616,7 +616,7 @@ test('OpenCode usage snapshots replace totals, persist across restart, and never
 });
 
 
-test('Codex workers preserve native approvals, follow authenticated root hooks, and resume their provider session', async (t) => {
+test('Codex workers use auto-review in the workspace sandbox, follow authenticated root hooks, and resume their provider session', async (t) => {
   const f = fixture();
   isolateProviderEnvironment(f, t);
   const oldLog = process.env.FAKE_AGENT_LOG;

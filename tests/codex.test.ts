@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import {
   CODEX_HOOK_EVENTS,
+  codexAutomationArgs,
   codexHookArgs,
   codexModelArgs,
   normalizeCodexHook,
@@ -60,15 +61,31 @@ test('a worker\'s own model and effort go on Codex\'s command line, in place of 
   assert.deepEqual(codexModelArgs(['-m', 'gpt-6-astra'], undefined, 'xhigh'), ['-m', 'gpt-6-astra', '-c', 'model_reasoning_effort="xhigh"']);
 });
 
+test('Codex workers auto-review routine requests while retaining workspace-write sandbox', () => {
+  assert.deepEqual(codexAutomationArgs([
+    '--yolo', '--sandbox', 'danger-full-access', '--ask-for-approval', 'never',
+    '-c', 'sandbox_mode="danger-full-access"', '-c', 'approval_policy="never"',
+    '-c', 'model_reasoning_effort="high"', '--model', 'gpt-6.1-sol',
+  ]), ['-c', 'model_reasoning_effort="high"', '--model', 'gpt-6.1-sol']);
+  assert.deepEqual(codexAutomationArgs([
+    '--dangerously-bypass-approvals-and-sandbox', '--dangerously-bypass-hook-trust', '--full-auto', 'task',
+  ]), ['task']);
+});
+
 test('a Codex worker starts, and resumes, on the model and effort picked for it', () => {
   const launch = (info: { model?: string; effort?: string }, more: { prompt?: string; resumeSessionId?: string } = {}) =>
     codex.launch({ h: { info, state: codex.createState!() } as never, args: ['--yolo'], setup: { hook: '/data/hook.cjs' }, ...more }).args;
   const fresh = launch({ model: 'gpt-5.5', effort: 'high' }, { prompt: 'fix it' });
-  assert.deepEqual(fresh.slice(0, 5), ['--yolo', '--model', 'gpt-5.5', '-c', 'model_reasoning_effort="high"']);
+  assert.deepEqual(fresh.slice(0, 4), ['--model', 'gpt-5.5', '-c', 'model_reasoning_effort="high"']);
+  assert.ok(fresh.includes('--sandbox'));
+  assert.ok(fresh.includes('workspace-write'));
+  assert.ok(fresh.includes('--approve-for-me'));
   assert.deepEqual(fresh.slice(-2), ['--', 'fix it']);
   // Its options come before the `resume` subcommand, which then takes the session.
   const resumed = launch({ model: 'gpt-5.5', effort: 'high' }, { resumeSessionId: 'thread-1' });
-  assert.deepEqual(resumed.slice(0, 5), ['--yolo', '--model', 'gpt-5.5', '-c', 'model_reasoning_effort="high"']);
+  assert.deepEqual(resumed.slice(0, 4), ['--model', 'gpt-5.5', '-c', 'model_reasoning_effort="high"']);
+  assert.ok(resumed.includes('--sandbox'));
+  assert.ok(resumed.includes('--approve-for-me'));
   assert.deepEqual(resumed.slice(-2), ['resume', 'thread-1']);
   // Left on its defaults, nothing is added.
   const plain = launch({});

@@ -33,7 +33,7 @@ curl -fsSL https://raw.githubusercontent.com/AgentSystemLabs/agent-office/main/i
 ## What it is
 
 - **A floor per project.** Ride the elevator, pick one of your GitHub repos, and the office clones it (showing how far along it is) and opens a floor for it. Every worker, board and queue on that floor works in that checkout.
-- **Workers at desks.** Walk up to an empty desk, press **E**, and pick Claude Code, Codex, OpenCode, Grok, Muse, DeepSeek Harness, Pi or Cursor, each with its model and reasoning effort. The agent's live terminal shows on its laptop, and anyone can open it and type.
+- **Workers at desks.** Walk up to an empty desk, press **E**, and pick Claude Code, Codex, OpenCode, Grok, Muse, DeepSeek Harness, Pi or Cursor, each with its model and reasoning effort. The agent's live terminal shows on its laptop, and anyone can open it and type. Codex workers use automatic review inside the workspace sandbox to reduce routine approval interruptions.
 - **Talk instead of typing.** Hold **Ctrl+Space** (or the **🎤**) in a worker's terminal or a prompt box and say what you want: it's typed in for you to send. Your browser does the listening, so there's nothing to install.
 - **You can't miss who needs you.** A worker that stops to ask you something lights a red beacon over its desk, puts a banner on your screen saying who and what for, and sounds an alarm. One that has finished jumps up and down and dings. Press **N** to go straight to whoever is waiting.
 - **From your phone, too.** `/lite` is the office in 2D: every worker and what it's waiting on, its terminal with the keys a phone keyboard lacks, and the boards. The 3D office offers it on a phone or a slow computer.
@@ -404,6 +404,7 @@ Every change to the app that lands on `main` is published as a GitHub release by
 
 - [Features](docs/features.md): everything in the office, room by room
 - [Agents](docs/agents.md): Claude Code, Codex and OpenCode, models and effort, and the office's prompts
+- [First $1,000 operating plan](docs/first-1000-plan.md): a no-upfront-spend service experiment, validation gates and the path to a repeatable business
 - [Configuration](docs/configuration.md): every command-line option, and where the office keeps its data
 - [Maps](docs/maps.md): the castle, the space station, and making a map of your own
 - [Workers' servers on your own computer](docs/tunnel.md): `agent-office tunnel`, which opens every worker's web server on your computer by itself

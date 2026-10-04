@@ -2,7 +2,7 @@
 // /hooks/codex; its usage is read from the root session's rollout (see codex-usage.ts).
 import { homedir } from 'node:os';
 import path from 'node:path';
-import { codexHookArgs, codexModelArgs, normalizeCodexHook, writeCodexHook } from '../codex.js';
+import { codexAutomationArgs, codexHookArgs, codexModelArgs, normalizeCodexHook, writeCodexHook } from '../codex.js';
 import { CodexUsageReader } from '../codex-usage.js';
 import { codexMcpArgs } from '../office-workers.js';
 import { reduceLifecycle, type ToolTracker } from '../workers/lifecycle.js';
@@ -92,8 +92,14 @@ export const codex: ProviderAdapter<CodexState, CodexSetup> = {
   prepare: ({ dataDir, mcpScript }) => ({ hook: writeCodexHook(dataDir), mcpScript }),
   launch({ h, args, prompt, resumeSessionId, setup }) {
     // Resumed too: Codex resumes on whatever its config says now, not on the model the session ran on.
-    args = codexModelArgs(args, h.info.model, h.info.effort);
-    args.push(...codexHookArgs(setup.hook), ...(setup.mcpScript ? codexMcpArgs(setup.mcpScript) : []), '--no-alt-screen');
+    args = codexAutomationArgs(codexModelArgs(args, h.info.model, h.info.effort));
+    // Auto-review handles routine approvals inside the workspace without repeated prompts. The
+    // sandbox remains workspace-write, and actions that review rejects fail closed in the terminal.
+    args.push(
+      ...codexHookArgs(setup.hook),
+      ...(setup.mcpScript ? codexMcpArgs(setup.mcpScript) : []),
+      '--sandbox', 'workspace-write', '--approve-for-me', '--no-alt-screen',
+    );
     if (resumeSessionId) args.push('resume', resumeSessionId);
     if (prompt) args.push('--', prompt);
     tracker(h.state).clear();

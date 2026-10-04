@@ -82,6 +82,33 @@ export function validateCodexHook(event: string, payload: unknown): boolean {
   return !!normalizeCodexHook(event, payload);
 }
 
+/**
+ * Remove caller-supplied Codex settings that would disable the workspace sandbox or its review
+ * boundary. The worker adapter adds its enforced workspace-write + auto-review settings afterward.
+ */
+export function codexAutomationArgs(args: readonly string[]): string[] {
+  const result: string[] = [];
+  const unsafe = new Set([
+    '--dangerously-bypass-approvals-and-sandbox', '--dangerously-bypass-hook-trust', '--yolo', '--full-auto',
+  ]);
+  const valueFlags = new Set(['--sandbox', '-s', '--ask-for-approval', '-a']);
+  const safetyConfig = /^(?:sandbox_mode|approval_policy|approvals_reviewer)\s*=/;
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (unsafe.has(arg)) continue;
+    if (valueFlags.has(arg)) { i++; continue; }
+    if ([...valueFlags].some((flag) => arg.startsWith(`${flag}=`))) continue;
+    if (arg === '-c' || arg === '--config') {
+      const value = args[i + 1] ?? '';
+      if (safetyConfig.test(value)) { i++; continue; }
+    }
+    if ((arg.startsWith('-c') && arg.length > 2 && safetyConfig.test(arg.slice(2))) ||
+        (arg.startsWith('--config=') && safetyConfig.test(arg.slice('--config='.length)))) continue;
+    result.push(arg);
+  }
+  return result;
+}
+
 function shellQuote(value: string): string {
   return `'${value.replaceAll("'", "'\"'\"'")}'`;
 }
