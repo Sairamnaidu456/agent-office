@@ -4,6 +4,7 @@
 import type { Route } from '../router.js';
 import { agentRoutes } from './agents.js';
 import { authRoutes } from './auth.js';
+import { accessRoutes } from './access.js';
 import { fileRoutes } from './files.js';
 import { githubRoutes } from './github.js';
 import { pageRoutes } from './pages.js';
@@ -27,6 +28,7 @@ export const routes: readonly Route[] = [
   pageRoutes.favicon,
   // Signed in.
   authRoutes.whoami,
+  ...Object.values(accessRoutes),
   agentRoutes.models,
   fileRoutes.image,
   fileRoutes.whiteboardFile,

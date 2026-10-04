@@ -420,3 +420,7 @@ Every change to the app that lands on `main` is published as a GitHub release by
 ## License
 
 [MIT](LICENSE)
+
+## Creative team and employee access
+
+See [Creative office team](docs/creative-team.md) for the dedicated improvement workflow, initial backlog and authenticated account/invite API.
