@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Seeded modal scroll defect</title>
+<style>body{min-height:200vh;font-family:sans-serif}dialog{padding:2rem}</style>
+<h1>Modal scroll fixture</h1><button data-testid="open">Open settings</button>
+<dialog><button data-testid="close">Close settings</button></dialog>
+<script>
+const fixed = new URLSearchParams(location.search).get('fixed') === '1';
+document.querySelector('[data-testid=open]').onclick = () => {
+  document.body.style.overflow = 'hidden'; document.querySelector('dialog').showModal();
+};
+document.querySelector('[data-testid=close]').onclick = () => {
+  document.querySelector('dialog').close(); if (fixed) document.body.style.overflow = '';
+};
+</script></html>

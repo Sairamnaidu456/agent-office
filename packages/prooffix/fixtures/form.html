@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Seeded save persistence defect</title>
+<h1>Profile fixture</h1><label>Name <input data-testid="name"></label>
+<button data-testid="save">Save</button><p data-testid="saved-name"></p>
+<script>
+const fixed = new URLSearchParams(location.search).get('fixed') === '1';
+const saved = localStorage.getItem('prooffix-fixture-name') || '';
+document.querySelector('[data-testid=saved-name]').textContent = saved;
+document.querySelector('[data-testid=save]').onclick = () => {
+  const value = document.querySelector('input').value;
+  document.querySelector('[data-testid=saved-name]').textContent = value;
+  if (fixed) localStorage.setItem('prooffix-fixture-name', value);
+};
+</script></html>

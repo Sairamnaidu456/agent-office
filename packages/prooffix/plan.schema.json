@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProofFix plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "name", "steps"],
+  "properties": {
+    "version": { "const": 1 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "steps": {
+      "type": "array", "minItems": 1, "maxItems": 20,
+      "contains": { "properties": { "action": { "enum": ["assertVisible", "assertText", "assertUrl", "assertNoHorizontalOverflow", "assertBodyScrollable"] } }, "required": ["action"] },
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["action"],
+        "properties": {
+          "action": { "enum": ["click", "fill", "reload", "assertVisible", "assertText", "assertUrl", "assertNoHorizontalOverflow", "assertBodyScrollable"] },
+          "value": { "type": "string", "maxLength": 2000 },
+          "target": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "testId": { "type": "string", "minLength": 1, "maxLength": 2000 },
+              "role": { "enum": ["button", "textbox", "link", "dialog", "heading", "checkbox", "combobox", "alert", "status"] },
+              "name": { "type": "string", "minLength": 1, "maxLength": 2000 }
+            },
+            "oneOf": [
+              { "required": ["testId"], "not": { "anyOf": [{ "required": ["role"] }, { "required": ["name"] }] } },
+              { "required": ["role", "name"], "not": { "required": ["testId"] } }
+            ]
+          }
+        },
+        "allOf": [
+          { "if": { "properties": { "action": { "enum": ["click", "fill", "assertVisible", "assertText"] } } }, "then": { "required": ["target"] } },
+          { "if": { "properties": { "action": { "enum": ["fill", "assertText", "assertUrl"] } } }, "then": { "required": ["value"] }, "else": { "not": { "required": ["value"] } } },
+          { "if": { "properties": { "action": { "enum": ["reload", "assertUrl", "assertNoHorizontalOverflow", "assertBodyScrollable"] } } }, "then": { "not": { "required": ["target"] } } },
+          { "if": { "properties": { "action": { "const": "assertUrl" } } }, "then": { "properties": { "value": { "pattern": "^https?://(127\\.0\\.0\\.1|\\[::1\\])(?::[0-9]+)?(?:/|$)" } } } }
+        ]
+      }
+    }
+  }
+}

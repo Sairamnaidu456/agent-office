@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seeded mobile overflow defect</title>
+<style>body{font-family:sans-serif}.card{width:900px;background:#ddd;padding:20px;box-sizing:border-box}</style>
+<h1>Mobile layout fixture</h1><div class="card">A wide card should fit a mobile screen.</div>
+<script>if(new URLSearchParams(location.search).get('fixed')==='1')document.querySelector('.card').style.maxWidth='100%';</script></html>

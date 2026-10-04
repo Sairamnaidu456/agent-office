@@ -1,0 +1,17 @@
+{
+  "name": "prooffix-pilot",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "proof": "node --import tsx src/cli.ts verify",
+    "prompt": "node --import tsx src/cli.ts prompt",
+    "demo": "node --import tsx src/demo.ts"
+  },
+  "dependencies": {
+    "playwright-core": "1.63.0",
+    "tsx": "4.23.15"
+  }
+}

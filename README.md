@@ -402,6 +402,8 @@ Every change to the app that lands on `main` is published as a GitHub release by
 
 ## More
 
+- [ProofFix pilot](docs/prooffix-pilot.md): local AI-assisted before/after regression verification experiment
+
 - [Features](docs/features.md): everything in the office, room by room
 - [Agents](docs/agents.md): Claude Code, Codex and OpenCode, models and effort, and the office's prompts
 - [Configuration](docs/configuration.md): every command-line option, and where the office keeps its data
