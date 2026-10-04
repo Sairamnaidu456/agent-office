@@ -420,3 +420,7 @@ Every change to the app that lands on `main` is published as a GitHub release by
 ## License
 
 [MIT](LICENSE)
+
+## Office agent terminal authority
+
+The CEO and all office agents have standing authorization for assigned terminal engineering and monitoring. See [Agent terminal authority](docs/agent-terminal-authority.md) for scope, handoffs and runtime permission settings.
